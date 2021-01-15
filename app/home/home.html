@@ -1,0 +1,921 @@
+<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+    <md-nav-item md-nav-click="goto('find')" name="find">find</md-nav-item>
+    <md-nav-item md-nav-click="goto('flights')" name="flights">flights</md-nav-item>
+    <md-nav-item md-nav-click="goto('airports')" name="airports" ng-show="role === 'ADMIN'">airports</md-nav-item>
+    <md-nav-item md-nav-click="goto('aircrafts')" name="aircrafts" ng-show="role === 'ADMIN'">aircrafts</md-nav-item>
+    <md-nav-item md-nav-click="goto('cities')" name="cities" ng-show="role === 'ADMIN'">cities</md-nav-item>
+    <md-nav-item md-nav-click="goto('seats')" name="seats" ng-show="role === 'ADMIN'">seats</md-nav-item>
+    <md-nav-item md-nav-click="goto('tickets')" name="tickets">tickets</md-nav-item>
+    <md-nav-item md-nav-click="goto('history')" name="history">history</md-nav-item>
+
+</md-nav-bar>
+
+<div ng-if="currentNavItem ==='find'" layout="column" layout-align="space-around center">
+    <md-card>
+        <md-card-header>
+            <md-card-header-text>
+                <span class="md-title">Find flight</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content layout="column">
+            <div layout="column" layout-align="center center">
+                <div layout="row">
+                    <md-input-container>
+                        <label>Number</label>
+                        <input type="text"
+                               ng-model="findFlight.number">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Gate</label>
+                        <input type="text"
+                               ng-model="findFlight.gate">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container>
+                        <label>Boarding</label>
+                        <md-datepicker ng-model="findFlight.boardingTime"></md-datepicker>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Departure</label>
+                        <md-datepicker ng-model="findFlight.departureTime"></md-datepicker>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Arrival</label>
+                        <md-datepicker ng-model="findFlight.arrivalTime"></md-datepicker>
+                    </md-input-container>
+                </div>
+            </div>
+            <div ng-show="showOptions">
+                <md-divider></md-divider>
+                <div layout="column" layout-align="space-between center">
+                    <span class="sub-title">Aircraft</span>
+                    <div layout="row" layout-align="center center">
+                        <md-input-container>
+                            <label>Aircraft name</label>
+                            <input type="text"
+                                   ng-model="findFlight.City.name">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Aircraft model</label>
+                            <input type="text"
+                                   ng-model="findFlight.City.model">
+                        </md-input-container>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+                <div layout="column" layout-align="center center">
+                    <span class="sub-title">Destination</span>
+                    <div layout="row" layout-align="center stretch">
+                        <md-input-container>
+                            <label>City name</label>
+                            <input type="text"
+                                   ng-model="findFlight.DestinationCity.name">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>City country</label>
+                            <md-select ng-model="findFlight.DestinationCountry"
+                                       name="country"
+                                       aria-label="select country ">
+                                <md-option ng-value="country" ng-repeat="country in countries">{{ country }}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <div layout="column">
+                            <md-input-container>
+                                <label>Airport name</label>
+                                <input type="text"
+                                       ng-model="findFlight.DestinationAirport.name">
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Airport ICAO</label>
+                                <input type="text"
+                                       ng-model="findFlight.DestinationAirport.ICAO">
+                            </md-input-container>
+                        </div>
+                        <div layout="column">
+                            <md-input-container>
+                                <label>Airport tax price</label>
+                                <input type="number"
+                                       ng-model="findFlight.DestinationAirport.taxPrice">
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Airport IATA</label>
+                                <input type="text"
+                                       ng-model="findFlight.DestinationAirport.IATA">
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+                <div layout="column" layout-align="center center">
+                    <span class="sub-title">Origin</span>
+                    <div layout="row" layout-align="center stretch">
+                        <md-input-container>
+                            <label>City name</label>
+                            <input type="text"
+                                   ng-model="findFlight.OriginCity.name">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>City country</label>
+                            <md-select ng-model="findFlight.OriginCity.country"
+                                       name="country"
+                                       aria-label="select country ">
+                                <md-option ng-value="country" ng-repeat="country in countries">{{ country }}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <div layout="column">
+                            <md-input-container>
+                                <label>Airport name</label>
+                                <input type="text"
+                                       ng-model="findFlight.OriginAirport.name">
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Airport ICAO</label>
+                                <input type="text"
+                                       ng-model="findFlight.OriginAirport.ICAO">
+                            </md-input-container>
+                        </div>
+                        <div layout="column">
+                            <md-input-container>
+                                <label>Airport tax price</label>
+                                <input type="number"
+                                       ng-model="findFlight.OriginAirport.taxPrice">
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Airport IATA</label>
+                                <input type="text"
+                                       ng-model="findFlight.OriginAirport.IATA">
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+        <md-divider></md-divider>
+        <md-card-actions layout="row">
+            <md-button ng-click="toggleOptions()"
+                       layout="row"
+                       class="md-primary">
+                {{optionName}} options
+                <i class="material-icons" ng-show="!showOptions">expand_more</i>
+                <i class="material-icons" ng-show="showOptions">expand_less</i>
+            </md-button>
+            <span flex=""></span>
+            <md-button ng-click="find()" class="md-primary md-raised">
+                Find fly
+            </md-button>
+        </md-card-actions>
+    </md-card>
+</div>
+
+<div ng-if="currentNavItem ==='flights'" layout-wrap layout="row">
+    <h3 ng-show="Flights.length === 0">Currently there is no such flights.</h3>
+    <div ng-repeat="flight in Flights" flex="33">
+        <md-card>
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Flight</span>
+                </md-card-header-text>
+                <md-button class="md-icon-button"
+                           ng-show="role === 'ADMIN'"
+                           ng-click="editFlight(flight)">
+                    <md-icon>edit</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-warn"
+                           ng-show="role === 'ADMIN'"
+                           ng-click="deleteFlight(flight)">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content layout="column" layout-align="space-around stretch">
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Number:</span>
+                    <span>{{flight.number}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Boarding time:</span>
+                    <span>{{flight.boardingTime}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Departure time:</span>
+                    <span>{{flight.departureTime}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Arrival time:</span>
+                    <span{{flight.arrivalTime}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">gate:</span>
+                    <span>{{flight.gate}}</span>
+                </div>
+
+                <div ng-show="flight.info">
+                    <md-divider></md-divider>
+                    <div layout="column" layout-align="space-around stretch">
+                        <div layout="row">
+                            <span class="sub-title">Aircraft</span>
+                        </div>
+
+                        <div ng-repeat="(key,value) in findById(flight.aircraftId,Aircrafts)"
+                             ng-hide="key === 'id'"
+                             layout="column">
+                            <div layout="row">
+                                <span flex="{{nameFlex}}">{{key}}:</span>
+                                <span>{{value}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="flight.info">
+                    <md-divider></md-divider>
+                    <div layout="column" layout-align="space-around stretch">
+                        <div layout="row">
+                            <span class="sub-title">Destination city</span>
+                        </div>
+                        <div ng-repeat="(key,value) in findById(findById(flight.destinationAirportId,Airports).city_id,Cities)"
+                             ng-hide="key === 'id'"
+                             layout="column">
+                            <div layout="row">
+                                <span flex="{{nameFlex}}">{{key}}:</span>
+                                <span>{{value}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="flight.info">
+                    <md-divider></md-divider>
+                    <div layout="column" layout-align="space-around stretch">
+                        <div layout="row">
+                            <span class="sub-title">Destination airport</span>
+                        </div>
+                        <div ng-repeat="(key,value) in findById(flight.destinationAirportId,Airports)"
+                             ng-hide="key === 'id' || key === 'city_id'"
+                             layout="column">
+                            <div layout="row">
+                                <span flex="{{nameFlex}}">{{key}}:</span>
+                                <span>{{value}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="flight.info">
+                    <md-divider></md-divider>
+                    <div layout="column" layout-align="space-around stretch">
+                        <div layout="row">
+                            <span class="sub-title">Origin city</span>
+                        </div>
+                        <div ng-repeat="(key,value) in findById(findById(flight.originAirportId,Airports).city_id,Cities)"
+                             ng-hide="key === 'id'"
+                             layout="column">
+                            <div layout="row">
+                                <span flex="{{nameFlex}}">{{key}}:</span>
+                                <span>{{value}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="flight.info">
+                    <md-divider></md-divider>
+                    <div layout="column" layout-align="space-around stretch">
+                        <div layout="row">
+                            <span class="sub-title">Origin airport</span>
+                        </div>
+                        <div ng-repeat="(key,value) in findById(flight.originAirportId,Airports)"
+                             ng-hide="key === 'id' || key === 'city_id'"
+                             layout="column">
+                            <div layout="row">
+                                <span flex="{{nameFlex}}">{{key}}:</span>
+                                <span>{{value}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </md-card-content>
+            <md-divider></md-divider>
+            <md-card-actions layout="row">
+                <md-button ng-click="flight.info = !flight.info"
+                           layout="row"
+                           class="md-primary">
+                    {{flight.info ? 'Hide less info' : 'Show more info'}}
+                    <i class="material-icons" ng-show="!flight.info">expand_more</i>
+                    <i class="material-icons" ng-show="flight.info">expand_less</i>
+                </md-button>
+                <span flex=""></span>
+                <md-button ng-click="showBooked(flight.id, currentUser.id)" class="md-primary md-raised"
+                           ng-disabled="role ==='' || role === undefined">
+                    Book
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+    <div flex="33" layout="column">
+        <md-button ng-show="role === 'ADMIN'"
+                   class="md-primary md-raised"
+                   ng-click="addFlight()"
+                   flex>
+            <div layout="column"
+                 layout-align="center center">
+                Add fligh
+                <md-icon>add</md-icon>
+            </div>
+        </md-button>
+    </div>
+</div>
+
+<div ng-if="currentNavItem ==='airports'" layout-wrap layout="row">
+    <h3 ng-show="Airports.length === 0">Currently there is no airports.</h3>
+    <div ng-repeat="airport in Airports" flex="33">
+        <md-card>
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Airport</span>
+                </md-card-header-text>
+                <md-button class="md-icon-button"
+                           ng-click="editAirport(airport)">
+                    <md-icon>edit</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-warn"
+                           ng-click="deleteAirport(airport)">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content layout="column" layout-align="space-around stretch">
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Name:</span>
+                    <span>{{airport.name}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">ICAO:</span>
+                    <span>{{airport.icao}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">IATA:</span>
+                    <span>{{airport.iata}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Tax price:</span>
+                    <span>{{airport.taxPrice}}</span>
+                </div>
+
+                <div ng-show="airport.info">
+                    <md-divider></md-divider>
+                    <div layout="column" layout-align="space-around stretch">
+                        <div layout="row">
+                            <span class="sub-title">City</span>
+                        </div>
+
+                        <div ng-repeat="(key,value) in findById(airport.city_id,Cities)"
+                             ng-hide="key === 'id'"
+                             layout="column">
+                            <div layout="row">
+                                <span flex="{{nameFlex}}">{{key}}:</span>
+                                <span>{{value}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </md-card-content>
+            <md-divider></md-divider>
+            <md-card-actions layout="row">
+                <md-card-actions layout="row">
+                    <md-button ng-click="airport.info = !airport.info"
+                               layout="row"
+                               class="md-primary">
+                        {{airport.info ? 'Hide less info' : 'Show more info'}}
+                        <i class="material-icons" ng-show="!airport.info">expand_more</i>
+                        <i class="material-icons" ng-show="airport.info">expand_less</i>
+                    </md-button>
+                </md-card-actions>
+            </md-card-actions>
+        </md-card>
+    </div>
+    <div flex="33" layout="column">
+        <md-button class="md-primary md-raised"
+                   ng-click="addAirport()"
+                   flex="">
+            <div layout="column"
+                 layout-align="center center">
+                Add airport
+                <md-icon>add</md-icon>
+            </div>
+        </md-button>
+    </div>
+</div>
+
+<div ng-if="currentNavItem ==='aircrafts'" layout-wrap layout="row">
+    <h3 ng-show="Aircrafts.length === 0">Currently there is no aircrafts.</h3>
+    <div ng-repeat="aircraft in Aircrafts" flex="33">
+        <md-card>
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Aircraft</span>
+                </md-card-header-text>
+                <md-button class="md-icon-button"
+                           ng-click="editAircraft(aircraft)">
+                    <md-icon>edit</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-warn"
+                           ng-click="deleteAircraft(aircraft)">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content layout="column" layout-align="space-around stretch">
+                <md-input-container>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Name:</span>
+                        <span>{{aircraft.name}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Model:</span>
+                        <span>{{aircraft.model}}</span>
+                    </div>
+            </md-card-content>
+        </md-card>
+    </div>
+    <div flex="33" layout="column">
+        <md-button class="md-primary md-raised"
+                   ng-click="addAircraft()"
+                   flex="">
+            <div layout="column"
+                 layout-align="center center">
+                Add aircraft
+                <md-icon>add</md-icon>
+            </div>
+        </md-button>
+    </div>
+</div>
+
+<div ng-if="currentNavItem ==='cities'" layout-wrap layout="row">
+    <h3 ng-show="Cities.length === 0">Currently there is no cities.</h3>
+    <div ng-repeat="city in Cities" flex="33">
+        <md-card>
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">City</span>
+                </md-card-header-text>
+                <md-button class="md-icon-button"
+                           ng-click="editCity(city)">
+                    <md-icon>edit</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-warn"
+                           ng-click="deleteCity(city)">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content layout="column" layout-align="space-around stretch">
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Name:</span>
+                    <span>{{city.name}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Country:</span>
+                    <span>{{city.country}}</span>
+                </div>
+            </md-card-content>
+            <md-divider></md-divider>
+        </md-card>
+    </div>
+    <div flex="33" layout="column">
+        <md-button class="md-primary md-raised"
+                   ng-click="addCity()"
+                   flex="">
+            <div layout="column"
+                 layout-align="center center">
+                Add city
+                <md-icon>add</md-icon>
+            </div>
+        </md-button>
+    </div>
+</div>
+
+<div ng-if="currentNavItem ==='seats'" layout-wrap layout="row">
+    <h3 ng-show="Seats.length === 0">Currently there is no seats.</h3>
+    <div ng-repeat="seat in Seats" flex="33">
+        <md-card>
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Seat</span>
+                </md-card-header-text>
+                <md-button class="md-icon-button"
+                           ng-click="editSeat(seat)">
+                    <md-icon>edit</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-warn"
+                           ng-click="deleteSeat(seat)">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content layout="column" layout-align="space-around stretch">
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Number:</span>
+                    <span>{{seat.number}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Price:</span>
+                    <span>{{seat.price}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Class:</span>
+                    <span>{{seat.seatClass}}</span>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+    <div flex="33" layout="column">
+        <md-button class="md-primary md-raised"
+                   ng-click="addSeat()"
+                   flex="">
+            <div layout="column"
+                 layout-align="center center">
+                Add seat
+                <md-icon>add</md-icon>
+            </div>
+        </md-button>
+    </div>
+</div>
+
+<div ng-if="currentNavItem ==='tickets'">
+    <div ng-if="!role" layout="row" layout-wrap>
+        <h3>Need to be log in.</h3>
+    </div>
+    <div ng-if="role" layout="row" layout-wrap>
+        <h3 ng-show="findBooked(findTicketUser(currentUser.id,BoardingPasses)).length == 0">Currently is empty.</h3>
+        <md-button ng-show="findBooked(findTicketUser(currentUser.id,BoardingPasses)).length == 0"
+                   href="#home"
+                   class="md-primary md-raised">
+            Find tickets
+        </md-button>
+        <div ng-repeat="boardingPasse in findBooked(findTicketUser(currentUser.id,BoardingPasses))" flex="33">
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">Booked ticket</span>
+                    </md-card-header-text>
+                    <md-button ng-click="changeTicketStatus(boardingPasse,'DONE')"
+                               ng-show="role === 'ADMIN' || role === 'MANAGER'"
+                               class="md-icon-button  md-primary">
+                        <md-icon>done</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button md-warn"
+                               ng-click="changeTicketStatus(boardingPasse,'CANCELLED')">
+                        <md-icon>close</md-icon>
+                    </md-button>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content layout="column">
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Booking Date:</span>
+                        <span>{{boardingPasse.bookingDate}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Status:</span>
+                        <span>{{boardingPasse.status}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Checked luggage price:</span>
+                        <span>{{boardingPasse.checkedLuggagePrice}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Additional weight price:</span>
+                        <span>{{boardingPasse.additionalWeightPrice}}</span>
+                    </div>
+
+                    <div ng-show="boardingPasse.info">
+                        <md-divider></md-divider>
+                        <div layout="column" layout-align="space-around stretch">
+                            <div layout="row">
+                                <span class="sub-title">Seat</span>
+                            </div>
+                            <div ng-repeat="(key,value) in findById(boardingPasse.seat_id,Seats)"
+                                 ng-hide="key === 'id' || key === 'aircraft_id'"
+                                 layout="column">
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">{{key}}:</span>
+                                    <span>{{value}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-show="boardingPasse.info">
+                        <md-divider></md-divider>
+                        <div layout="column" layout-align="space-around stretch">
+                            <div layout="row">
+                                <span class="sub-title">Fly</span>
+                            </div>
+                            <div ng-model="flight = findById(boardingPasse.flight_id,Flights)"
+                                 ng-hide="key == 'airline_id' || key == 'airport_id' || key == 'id'"
+                                 layout="column">
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">Number:</span>
+                                    <span>{{flight.number}}</span>
+                                </div>
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">Boarding time:</span>
+                                    <span>{{flight.boardingTime}}</span>
+                                </div>
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">Departure time:</span>
+                                    <span>{{flight.departureTime}}</span>
+                                </div>
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">Arrival time:</span>
+                                    <span>{{flight.arrivalTime}}</span>
+                                </div>
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">gate:</span>
+                                    <span>{{flight.gate}}</span>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Aircraft</span>
+                                    </div>
+
+                                    <div ng-repeat="(key,value) in findById(flight.aircraftId,Aircrafts)"
+                                         ng-hide="key === 'id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Destination city</span>
+                                    </div>
+                                    <div ng-repeat="(key,value) in findById(findById(flight.destinationAirportId,Airports).city_id,Cities)"
+                                         ng-hide="key === 'id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Destination airport</span>
+                                    </div>
+                                    <div ng-repeat="(key,value) in findById(flight.destinationAirportId,Airports)"
+                                         ng-hide="key === 'id' || key === 'city_id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Origin city</span>
+                                    </div>
+                                    <div ng-repeat="(key,value) in findById(findById(flight.originAirportId,Airports).city_id,Cities)"
+                                         ng-hide="key === 'id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Origin airport</span>
+                                    </div>
+                                    <div ng-repeat="(key,value) in findById(flight.originAirportId,Airports)"
+                                         ng-hide="key === 'id' || key === 'city_id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-card-content>
+                <md-divider></md-divider>
+                <md-card-actions layout='row'>
+                    <md-button ng-click="boardingPasse.info = !boardingPasse.info"
+                               class="md-primary"
+                               layout="row">
+                        {{boardingPasse.info ? 'Hide info' : 'Show less info'}}
+                        <i class="material-icons" ng-show="!boardingPasse.info">expand_more</i>
+                        <i class="material-icons" ng-show="boardingPasse.info">expand_less</i>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </div>
+</div>
+
+<div ng-if="currentNavItem ==='history'">
+    <div ng-if="!role" layout="row" layout-wrap flex>
+        <h3>Need to be log in.</h3>
+    </div>
+    <div ng-if="role" layout="row" layout-wrap flex>
+        <h3 ng-show="findNotBooked(findTicketUser(currentUser.id,BoardingPasses)).length == 0">Currently is empty.</h3>
+        <md-button ng-show="findNotBooked(findTicketUser(currentUser.id,BoardingPasses)).length == 0"
+                   href="#home"
+                   class="md-primary md-raised">
+            Find tickets
+        </md-button>
+        <div ng-repeat="boardingPasse in findNotBooked(findTicketUser(currentUser.id,BoardingPasses))" flex="33">
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">{{boardingPasse.status}} ticket</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content layout="column">
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Booking Date:</span>
+                        <span>{{boardingPasse.bookingDate}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Status:</span>
+                        <span>{{boardingPasse.status}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Checked luggage price:</span>
+                        <span>{{boardingPasse.checkedLuggagePrice}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Additional weight price:</span>
+                        <span>{{boardingPasse.additionalWeightPrice}}</span>
+                    </div>
+
+                    <div ng-show="boardingPasse.info">
+                        <md-divider></md-divider>
+                        <div layout="column" layout-align="space-around stretch">
+                            <div layout="row">
+                                <span class="sub-title">Seat</span>
+                            </div>
+                            <div ng-repeat="(key,value) in findById(boardingPasse.seat_id,Seats)"
+                                 ng-hide="key === 'id' || key === 'aircraft_id'"
+                                 layout="column">
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">{{key}}:</span>
+                                    <span>{{value}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-show="boardingPasse.info">
+                        <md-divider></md-divider>
+                        <div layout="column" layout-align="space-around stretch">
+                            <div layout="row">
+                                <span class="sub-title">Fly</span>
+                            </div>
+                            <div ng-model="flight = findById(boardingPasse.flight_id,Flights)"
+                                 ng-hide="key == 'airline_id' || key == 'airport_id' || key == 'id'"
+                                 layout="column">
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">Number:</span>
+                                    <span>{{flight.number}}</span>
+                                </div>
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">Boarding time:</span>
+                                    <span>{{flight.boardingTime}}</span>
+                                </div>
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">Departure time:</span>
+                                    <span>{{flight.departureTime}}</span>
+                                </div>
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">Arrival time:</span>
+                                    <span>{{flight.arrivalTime}}</span>
+                                </div>
+                                <div layout="row">
+                                    <span flex="{{nameFlex}}">gate:</span>
+                                    <span>{{flight.gate}}</span>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Aircraft</span>
+                                    </div>
+
+                                    <div ng-repeat="(key,value) in findById(flight.aircraftId,Aircrafts)"
+                                         ng-hide="key === 'id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Destination city</span>
+                                    </div>
+                                    <div ng-repeat="(key,value) in findById(findById(flight.destinationAirportId,Airports).city_id,Cities)"
+                                         ng-hide="key === 'id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Destination airport</span>
+                                    </div>
+                                    <div ng-repeat="(key,value) in findById(flight.destinationAirportId,Airports)"
+                                         ng-hide="key === 'id' || key === 'city_id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Origin city</span>
+                                    </div>
+                                    <div ng-repeat="(key,value) in findById(findById(flight.originAirportId,Airports).city_id,Cities)"
+                                         ng-hide="key === 'id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <md-divider></md-divider>
+                                <div layout="column" layout-align="space-around stretch">
+                                    <div layout="row">
+                                        <span class="sub-title">Origin airport</span>
+                                    </div>
+                                    <div ng-repeat="(key,value) in findById(flight.originAirportId,Airports)"
+                                         ng-hide="key === 'id' || key === 'city_id'"
+                                         layout="column">
+                                        <div layout="row">
+                                            <span flex="{{nameFlex}}">{{key}}:</span>
+                                            <span>{{value}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-card-content>
+                <md-divider></md-divider>
+                <md-card-actions layout="row">
+                    <md-button ng-click="boardingPasse.info = !boardingPasse.info"
+                               class="md-primary"
+                               layout="row">
+                        {{boardingPasse.info ? 'Hide info' : 'Show less info'}}
+                        <i class="material-icons" ng-show="!boardingPasse.info">expand_more</i>
+                        <i class="material-icons" ng-show="boardingPasse.info">expand_less</i>
+                    </md-button>
+                    <span flex=""></span>
+                    <md-button ng-click="showBooked(boardingPasse.flight_id, currentUser.id)"
+                               class="md-primary md-raised"
+                               ng-disabled="role ==='' || role === undefined">
+                        Book once more
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </div>
+</div>

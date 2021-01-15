@@ -1,0 +1,116 @@
+<md-dialog aria-label="Add/edit flight">
+    <form name="addFlight" ng-submit="answer(flight)">
+        <md-dialog-content layout="column">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Flight</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button md-warn" ng-click="cancel()">
+                        <i class="material-icons">close</i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-input-container>
+                <label>Number</label>
+                <input type="text"
+                       name="number"
+                       required
+                       ng-model="flight.number">
+                <div ng-messages="addFlight.number.$error"
+                     ng-show="addFlight.number.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <div layout="row" layout-align="space-around stretch">
+                <md-input-container>
+                    <label>Boarding time</label>
+                    <md-datepicker name="boardingTime"
+                                   md-hide-icons="calendar"
+                                   ng-model="flight.boardingTime"></md-datepicker>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Departure time</label>
+                    <md-datepicker name="departureTime"
+                                   md-hide-icons="calendar"
+                                   ng-model="flight.departureTime"></md-datepicker>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Arrival time</label>
+                    <md-datepicker name="arrivalTime"
+                                   md-hide-icons="calendar"
+                                   ng-model="flight.arrivalTime"></md-datepicker>
+                </md-input-container>
+            </div>
+
+
+            <md-input-container>
+                <label>Gate</label>
+                <input type="text"
+                       name="gate"
+                       required
+                       ng-model="flight.gate">
+                <div ng-messages="addFlight.gate.$error"
+                     ng-show="addFlight.gate.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Origin Airport</label>
+                <md-select ng-model="flight.originAirportId"
+                           name="originAirportId"
+                           required=""
+                           aria-label="select origin Airport ">
+                    <md-option ng-value="airport.id" ng-repeat="airport in Airports">{{ airport }}</md-option>
+                </md-select>
+                <div ng-messages="bookForm.originAirportId.$error"
+                     ng-show="bookForm.originAirportId.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Destination Airport</label>
+                <md-select ng-model="flight.destinationAirportId"
+                           name="destinationAirportId"
+                           required=""
+                           aria-label="select destination Airport ">
+                    <md-option ng-value="airport.id" ng-repeat="airport in Airports">{{ airport }}</md-option>
+                </md-select>
+                <div ng-messages="bookForm.destinationAirportId.$error"
+                     ng-show="bookForm.destinationAirportId.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Aircraft</label>
+                <md-select ng-model="flight.aircraftId"
+                           name="aircraftId"
+                           required=""
+                           aria-label="select Aircraft ">
+                    <md-option ng-value="aircraft.id" ng-repeat="aircraft in Aircrafts">{{ aircraft }}</md-option>
+                </md-select>
+                <div ng-messages="bookForm.aircraftId.$error"
+                     ng-show="bookForm.aircraftId.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+        </md-dialog-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row">
+            <span flex=""></span>
+            <md-button type="submit" class="md-primary md-raised">
+                Booked
+            </md-button>
+            <md-button class="md-warn md-raised" ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+
+</md-dialog>

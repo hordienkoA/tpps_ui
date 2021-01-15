@@ -1,0 +1,86 @@
+<md-dialog aria-label="Add/edit airport">
+    <form name="addAirport" ng-submit="answer(airport)">
+        <md-dialog-content layout="column">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Airport</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button md-warn" ng-click="cancel()">
+                        <i class="material-icons">close</i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-input-container>
+                <label>Name</label>
+                <input type="text"
+                       name="name"
+                       required
+                       ng-model="airport.name">
+                <div ng-messages="addAirport.name.$error"
+                     ng-show="addAirport.name.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>ICAO</label>
+                <input type="text"
+                       name="icao"
+                       required
+                       ng-model="airport.icao">
+                <div ng-messages="addAirport.icao.$error"
+                     ng-show="addAirport.icao.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>IATA</label>
+                <input type="text"
+                       name="iata"
+                       required
+                       ng-model="airport.iata">
+                <div ng-messages="addAirport.iata.$error"
+                     ng-show="addAirport.iata.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Tax price</label>
+                <input type="number"
+                       name="taxPrice"
+                       required
+                       ng-model="airport.taxPrice">
+                <div ng-messages="addAirport.taxPrice.$error"
+                     ng-show="addAirport.taxPrice.$dirty">
+                    <div ng-message="required">Required</div>
+                    <div ng-message="number">Should be a nubmer</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>City</label>
+                <md-select ng-model="airport.city_id"
+                           name="city_id"
+                           required=""
+                           aria-label="select city_id">
+                    <md-option ng-value="city.id" ng-repeat="city in Cities">{{ city }}</md-option>
+                </md-select>
+                <div ng-messages="bookForm.city_id.$error"
+                     ng-show="bookForm.city_id.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+        </md-dialog-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row">
+            <span flex=""></span>
+            <md-button type="submit" class="md-primary md-raised">
+                Save
+            </md-button>
+            <md-button class="md-warn md-raised" ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+
+</md-dialog>

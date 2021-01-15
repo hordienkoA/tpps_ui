@@ -1,0 +1,35 @@
+<md-dialog aria-label="Login dialog">
+    <form>
+        <md-dialog-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Login as</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button md-warn" ng-click="cancel()">
+                        <i class="material-icons">close</i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <div layout="row">
+                <md-button class="md-primary md-raised"
+                           ng-click="answer('ADMIN')">
+                    ADMIN
+                </md-button>
+                <md-button class="md-primary md-raised"
+                           ng-click="answer('MANAGER')">
+                    MANAGER
+                </md-button>
+                <md-button class="md-primary md-raised"
+                           ng-click="answer('CUSTOMER')">
+                    CUSTOMER
+                </md-button>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="column" layout-align="center end">
+            <md-button class="md-warn md-raised"
+                       ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

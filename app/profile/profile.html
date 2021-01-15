@@ -1,0 +1,399 @@
+<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+    <md-nav-item md-nav-click="goto('profile')" name="profile">profile</md-nav-item>
+    <md-nav-item md-nav-click="goto('customers')" name="customers" ng-show="role === 'ADMIN' || role === 'MANAGER'">
+        customers
+    </md-nav-item>
+    <md-nav-item md-nav-click="goto('managers')" name="managers" ng-show="role === 'ADMIN'">managers</md-nav-item>
+    <md-nav-item md-nav-click="goto('users')" name="users"
+                 ng-show="role === 'ADMIN' || role === 'MANAGER'">
+        users
+    </md-nav-item>
+</md-nav-bar>
+
+<div ng-if="currentNavItem ==='profile'" layout="row" layout-align="center">
+    <md-card layout="column" flex="60">
+        <md-card-header>
+            <md-card-header-text>
+                <span class="md-title">Your profile</span>
+            </md-card-header-text>
+            <md-button ng-show='!changeMode' class="md-primary md-icon-button"
+                       ng-click="changeMode = true;updateUser(currentUser)">
+                <md-icon>done</md-icon>
+            </md-button>
+            <md-button ng-show='changeMode' class="md-primary md-icon-button" ng-click="changeMode = false">
+                <md-icon>edit</md-icon>
+            </md-button>
+            <md-button ng-click="deleteUser(currentUser)" class="md-warn md-icon-button">
+                <md-icon>close</md-icon>
+            </md-button>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content layout="column" flex>
+            <md-input-container>
+                <label>First name</label>
+                <input type="text"
+                       ng-model="currentUser.firstName"
+                       ng-disabled="changeMode">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Last name</label>
+                <input type="text"
+                       ng-model="currentUser.lastName"
+                       ng-disabled="changeMode">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Date of birth</label>
+                <md-datepicker ng-model="currentUser.dateOfBirth"
+                               md-hide-icons="calendar"
+                               ng-disabled="changeMode">
+                </md-datepicker>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Sex</label>
+                <md-select ng-model="currentUser.sex"
+                           ng-disabled="changeMode"
+                           aria-label="select sex">
+                    <md-option ng-value="opt" ng-repeat="opt in sex">{{ opt }}</md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Phone</label>
+                <input type="tel"
+                       ng-model="currentUser.phoneNumber"
+                       ng-disabled="changeMode">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Email</label>
+                <input type="email"
+                       ng-model="currentUser.email"
+                       ng-disabled="changeMode">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Document number</label>
+                <input type="text"
+                       ng-model="currentUser.documentNumber"
+                       ng-disabled="changeMode">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Document expiration date</label>
+                <md-datepicker ng-model="currentUser.documentExpirationDate"
+                               md-hide-icons="calendar"
+                               ng-disabled="changeMode" flex="">
+                </md-datepicker>
+            </md-input-container>
+
+            <md-input-container>
+                <label>User role</label>
+                <input type="text"
+                       ng-model="currentUser.userRole"
+                       ng-disabled="changeMode">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Password</label>
+                <input type="text"
+                       ng-model="currentUser.password"
+                       ng-disabled="changeMode">
+            </md-input-container>
+
+            <md-switch ng-model="currentUser.enabled"
+                       ng-disabled="changeMode">Enabled
+            </md-switch>
+
+            <md-switch ng-model="currentUser.registered"
+                       ng-disabled="changeMode">Registered
+            </md-switch>
+
+        </md-card-content>
+
+        <md-divider></md-divider>
+        <md-card-actions layout="row">
+            <span flex=''></span>
+            <md-button ng-show='!changeMode' class="md-primary md-raised"
+                       ng-click="changeMode = true;updateUser(currentUser)">Done
+            </md-button>
+            <md-button ng-show='changeMode' class="md-primary md-raised" ng-click="changeMode = false">Edit</md-button>
+            <md-button ng-click="deleteUser(currentUser)" class="md-warn md-raised">Delete account</md-button>
+        </md-card-actions>
+    </md-card>
+</div>
+
+<div ng-if="currentNavItem ==='managers'" layout="row" layout-wrap>
+    <h3 ng-show="findByRole('MANAGER',Users).length === 0">Currently there is no managers.</h3>
+    <div ng-repeat="currentUser in findByRole('MANAGER',Users)" flex="33">
+        <md-card layout="column">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Manager {{currentUser.firstName}}</span>
+                </md-card-header-text>
+                <md-button class="md-primary md-icon-button" ng-click="editUser(currentUser)">
+                    <md-icon>edit</md-icon>
+                </md-button>
+                <md-button ng-click="deleteUser(currentUser)" class="md-warn md-icon-button">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content layout="column">
+                <div layout="row">
+                    <span flex="{{nameFlex}}">First name:</span>
+                    <span>{{currentUser.firstName}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Last name:</span>
+                    <span>{{currentUser.lastName}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Role:</span>
+                    <span>{{currentUser.userRole}}</span>
+                </div>
+
+                <div layout="column"
+                     ng-show="currentUser.info">
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Password:</span>
+                        <span>{{currentUser.password}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Registered:</span>
+                        <span>{{currentUser.registered ? 'Yes' : 'No'}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Enabled:</span>
+                        <span>{{currentUser.enabled ? 'Yes' : 'No'}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Sex:</span>
+                        <span>{{currentUser.sex}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Date of birth:</span>
+                        <span>{{currentUser.dateOfBirth}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Phone number:</span>
+                        <span>{{currentUser.phoneNumber}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Email:</span>
+                        <span>{{currentUser.email}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Document number:</span>
+                        <span>{{currentUser.documentNumber}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Document expiration date:</span>
+                        <span>{{currentUser.documentExpirationDate}}</span>
+                    </div>
+                </div>
+            </md-card-content>
+
+            <md-divider></md-divider>
+            <md-card-actions layout="row">
+                <md-button ng-click="currentUser.info = !currentUser.info"
+                           layout="row"
+                           class="md-primary">
+                    {{currentUser.info ? 'Less' : 'More'}} options
+                    <i class="material-icons" ng-show="!currentUser.info">expand_more</i>
+                    <i class="material-icons" ng-show="currentUser.info">expand_less</i>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</div>
+
+<div ng-if="currentNavItem ==='customers'" layout="row" layout-wrap>
+    <h3 ng-show="findByRole('CUSTOMER',Users).length === 0">Currently there is no customers.</h3>
+    <div ng-repeat="currentUser in findByRole('CUSTOMER',Users)" flex="33">
+        <md-card layout="column">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Customer {{currentUser.firstName}}</span>
+                </md-card-header-text>
+                <md-button class="md-primary md-icon-button" ng-click="editUser(currentUser)">
+                    <md-icon>edit</md-icon>
+                </md-button>
+                <md-button ng-click="deleteUser(currentUser)" class="md-warn md-icon-button">
+                    <md-icon>close</md-icon>
+                </md-button>
+            </md-card-header>
+            <md-divider></md-divider>
+            <md-card-content layout="column">
+                <div layout="row">
+                    <span flex="{{nameFlex}}">First name:</span>
+                    <span>{{currentUser.firstName}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Last name:</span>
+                    <span>{{currentUser.lastName}}</span>
+                </div>
+                <div layout="row">
+                    <span flex="{{nameFlex}}">Role:</span>
+                    <span>{{currentUser.userRole}}</span>
+                </div>
+
+                <div layout="column"
+                     ng-show="currentUser.info">
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Password:</span>
+                        <span>{{currentUser.password}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Registered:</span>
+                        <span>{{currentUser.registered ? 'Yes' : 'No'}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Enabled:</span>
+                        <span>{{currentUser.enabled ? 'Yes' : 'No'}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Sex:</span>
+                        <span>{{currentUser.sex}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Date of birth:</span>
+                        <span>{{currentUser.dateOfBirth}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Phone number:</span>
+                        <span>{{currentUser.phoneNumber}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Email:</span>
+                        <span>{{currentUser.email}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Document number:</span>
+                        <span>{{currentUser.documentNumber}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Document expiration date:</span>
+                        <span>{{currentUser.documentExpirationDate}}</span>
+                    </div>
+                </div>
+            </md-card-content>
+            <md-divider></md-divider>
+            <md-card-actions layout="row">
+                <md-button ng-click="currentUser.info = !currentUser.info"
+                           layout="row"
+                           class="md-primary">
+                    {{currentUser.info ? 'Less' : 'More'}} options
+                    <i class="material-icons" ng-show="!currentUser.info">expand_more</i>
+                    <i class="material-icons" ng-show="currentUser.info">expand_less</i>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</div>
+
+<div ng-if="currentNavItem ==='users'" layout="column" layout-align="space=between">
+    <md-input-container layout="row" flex>
+        <label>Find user by role</label>
+        <input type="text"
+               ng-model="findUser">
+        <md-icon>search</md-icon>
+    </md-input-container>
+    <h3 ng-show="user in Users |filter:{userRole:findUser} === 0">Currently there is no such users.</h3>
+    <div layout="row" layout-wrap>
+        <div ng-repeat="user in Users |filter:{userRole:findUser}" flex="33">
+            <md-card>
+                <md-card-header>
+                    <md-card-header-text>
+                        <span class="md-title">{{user.userRole}}</span>
+                    </md-card-header-text>
+                    <md-button class="md-primary md-icon-button" ng-click="editUser(currentUser)">
+                        <md-icon>edit</md-icon>
+                    </md-button>
+                    <md-button ng-click="deleteUser(currentUser)" class="md-warn md-icon-button">
+                        <md-icon>close</md-icon>
+                    </md-button>
+                </md-card-header>
+                <md-divider></md-divider>
+                <md-card-content layout="column">
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">First name:</span>
+                        <span>{{user.firstName}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Last name:</span>
+                        <span>{{user.lastName}}</span>
+                    </div>
+                    <div layout="row">
+                        <span flex="{{nameFlex}}">Role:</span>
+                        <span>{{user.userRole}}</span>
+                    </div>
+
+                    <div layout="column"
+                         ng-show="user.info">
+                        <div layout="row">
+                            <span flex="{{nameFlex}}">Password:</span>
+                            <span>{{user.password}}</span>
+                        </div>
+                        <div layout="row">
+                            <span flex="{{nameFlex}}">Registered:</span>
+                            <span>{{user.registered ? 'Yes' : 'No'}}</span>
+                        </div>
+                        <div layout="row">
+                            <span flex="{{nameFlex}}">Enabled:</span>
+                            <span>{{user.enabled ? 'Yes' : 'No'}}</span>
+                        </div>
+                        <div layout="row">
+                            <span flex="{{nameFlex}}">Sex:</span>
+                            <span>{{user.sex}}</span>
+                        </div>
+                        <div layout="row">
+                            <span flex="{{nameFlex}}">Date of birth:</span>
+                            <span>{{user.dateOfBirth}}</span>
+                        </div>
+                        <div layout="row">
+                            <span flex="{{nameFlex}}">Phone number:</span>
+                            <span>{{user.phoneNumber}}</span>
+                        </div>
+                        <div layout="row">
+                            <span flex="{{nameFlex}}">Email:</span>
+                            <span>{{user.email}}</span>
+                        </div>
+                        <div layout="row">
+                            <span flex="{{nameFlex}}">Document number:</span>
+                            <span>{{user.documentNumber}}</span>
+                        </div>
+                        <div layout="row">
+                            <span flex="{{nameFlex}}">Document expiration date:</span>
+                            <span>{{user.documentExpirationDate}}</span>
+                        </div>
+                    </div>
+                </md-card-content>
+
+                <md-divider></md-divider>
+                <div layout="row">
+                    <md-button ng-click="user.info = !user.info"
+                               layout="row"
+                               class="md-primary">
+                        {{user.info ? 'Less' : 'More'}} options
+                        <i class="material-icons" ng-show="!user.info">expand_more</i>
+                        <i class="material-icons" ng-show="user.info">expand_less</i>
+                    </md-button>
+                </div>
+            </md-card>
+        </div>
+        <div flex="33" layout="column">
+            <md-button class="md-primary md-raised"
+                       ng-click="addUser()"
+                       flex="">
+                <div layout="column"
+                     layout-align="center center">
+                    Add user
+                    <md-icon>add</md-icon>
+                </div>
+            </md-button>
+        </div>
+    </div>
+</div>

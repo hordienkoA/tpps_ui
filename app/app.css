@@ -1,0 +1,7 @@
+.md-toast.error .md-toast-content{
+    background-color: rgb(244,67,54);
+}
+
+.md-toast.success .md-toast-content{
+    background-color: rgb(0,150,136);
+}

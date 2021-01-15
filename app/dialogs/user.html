@@ -1,0 +1,147 @@
+<md-dialog aria-label="Add/edit user dialog">
+    <form name="addUser" ng-submit="answer(flight)">
+        <md-dialog-content layout="column" >
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>User</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button md-warn" ng-click="cancel()">
+                        <i class="material-icons">close</i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-input-container>
+                <label>First name</label>
+                <input type="text"
+                       required=""
+                       name="firstName"
+                       ng-model="user.firstName">
+                <div ng-messages="addUser.firstName.$error"
+                     ng-show="addUser.firstName.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Last name</label>
+                <input type="text"
+                       required=""
+                       name="lastName"
+                       ng-model="user.lastName">
+                <div ng-messages="addUser.lastName.$error"
+                     ng-show="addUser.lastName.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Date of birth</label>
+                <md-datepicker ng-model="user.dateOfBirth"
+                               md-hide-icons="calendar">
+                </md-datepicker>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Sex</label>
+                <md-select ng-model="user.sex"
+                           required=""
+                           name="sex"
+                           aria-label="select sex">
+                    <md-option ng-value="opt" ng-repeat="opt in sex">{{ opt }}</md-option>
+                </md-select>
+                <div ng-messages="addUser.sex.$error"
+                     ng-show="addUser.sex.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Phone</label>
+                <input type="tel"
+                       required=""
+                       name="tel"
+                       ng-model="user.phoneNumber">
+                <div ng-messages="addUser.tel.$error"
+                     ng-show="addUser.tel.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Email</label>
+                <input type="email"
+                       required=""
+                       name="email"
+                       ng-model="user.email">
+                <div ng-messages="addUser.email.$error"
+                     ng-show="addUser.email.$dirty">
+                    <div ng-message="required">Required</div>
+                    <div ng-message="email">Should be email</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Document number</label>
+                <input type="text"
+                       required=""
+                       name="documentNumber"
+                       ng-model="user.documentNumber">
+                <div ng-messages="addUser.documentNumber.$error"
+                     ng-show="addUser.documentNumber.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Document expiration date</label>
+                <md-datepicker ng-model="user.documentExpirationDate"
+                               md-hide-icons="calendar"
+                               flex="">
+                </md-datepicker>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Role</label>
+                <md-select ng-model="user.userRole"
+                           required=""
+                           name="role"
+                           aria-label="select role">
+                    <md-option ng-value="opt" ng-repeat="opt in role">{{ opt }}</md-option>
+                </md-select>
+                <div ng-messages="addUser.role.$error"
+                     ng-show="addUser.role.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Password</label>
+                <input type="password"
+                       required=""
+                       name="password"
+                       ng-model="user.password">
+                <div ng-messages="addUser.password.$error"
+                     ng-show="addUser.password.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-switch ng-model="user.enabled">Enabled
+            </md-switch>
+
+            <md-switch ng-model="user.registered">Registered
+            </md-switch>
+
+        </md-dialog-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row">
+            <span flex=""></span>
+            <md-button type="submit"  class="md-primary md-raised">
+                Save
+            </md-button>
+            <md-button class="md-warn md-raised" ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

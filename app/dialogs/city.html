@@ -1,0 +1,52 @@
+<md-dialog aria-label="Add/edit city">
+    <form name="addCity" ng-submit="answer(city)">
+        <md-dialog-content layout="column">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>City</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button md-warn" ng-click="cancel()">
+                        <i class="material-icons">close</i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-input-container>
+                <label>Name</label>
+                <input type="text"
+                       name="name"
+                       required
+                       ng-model="city.name">
+                <div ng-messages="addCity.name.$error"
+                     ng-show="addCity.name.$dirty">
+                    <div ng-message="name">Required</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Country</label>
+                <md-select ng-model="city.country"
+                           required=""
+                           name="country"
+                           aria-label="select country">
+                    <md-option ng-value="opt" ng-repeat="opt in countries">{{ opt }}</md-option>
+                </md-select>
+                <div ng-messages="addUser.country.$error"
+                     ng-show="addUser.country.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+        </md-dialog-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row">
+            <span flex=""></span>
+            <md-button type="submit" class="md-primary md-raised">
+                Save
+            </md-button>
+            <md-button class="md-warn md-raised" ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+
+</md-dialog>

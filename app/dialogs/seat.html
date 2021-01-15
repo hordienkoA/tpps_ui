@@ -1,0 +1,65 @@
+<md-dialog aria-label="Add/edit seat">
+    <form name="addSeat" ng-submit="answer(seat)">
+        <md-dialog-content layout="column">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Seat</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button md-warn" ng-click="cancel()">
+                        <i class="material-icons">close</i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-input-container>
+                <label>Number</label>
+                <input type="number"
+                       name="number"
+                       required
+                       ng-model="seat.number">
+                <div ng-messages="addSeat.number.$error"
+                     ng-show="addSeat.number.$dirty">
+                    <div ng-message="required">Required</div>
+                    <div ng-message="number">Should be a number</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Price</label>
+                <input type="number"
+                       name="price"
+                       required
+                       ng-model="seat.price">
+                <div ng-messages="addSeat.price.$error"
+                     ng-show="addSeat.price.$dirty">
+                    <div ng-message="required">Required</div>
+                    <div ng-message="number">Should be a number</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Class</label>
+                <md-select ng-model="seat.seatClass"
+                           required=""
+                           name="seatClass"
+                           aria-label="select seat Class">
+                    <md-option ng-value="opt" ng-repeat="opt in seatClasses">{{ opt }}</md-option>
+                </md-select>
+                <div ng-messages="addUser.seatClass.$error"
+                     ng-show="addUser.seatClass.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+        </md-dialog-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row">
+            <span flex=""></span>
+            <md-button type="submit" class="md-primary md-raised">
+                Save
+            </md-button>
+            <md-button class="md-warn md-raised" ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+
+</md-dialog>

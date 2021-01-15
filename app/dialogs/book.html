@@ -1,0 +1,64 @@
+<md-dialog aria-label="Book fly">
+    <form name="bookForm" ng-submit="answer(boardingPasse)">
+        <md-dialog-content layout="column">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Book</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button md-warn" ng-click="cancel()">
+                        <i class="material-icons">close</i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-input-container>
+                <label>Checked Luggage Price</label>
+                <input type="number"
+                       name="checkedLuggagePrice"
+                       required
+                       ng-model="boardingPasse.checkedLuggagePrice">
+                <div ng-messages="bookForm.checkedLuggagePrice.$error"
+                     ng-show="bookForm.checkedLuggagePrice.$dirty">
+                    <div ng-message="required">Required</div>
+                    <div ng-message="number">Should be a number</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Additional Weight Price</label>
+                <input type="number"
+                       name="additionalWeightPrice"
+                       required
+                       ng-model="boardingPasse.additionalWeightPrice">
+                <div ng-messages="bookForm.additionalWeightPrice.$error"
+                     ng-show="bookForm.additionalWeightPrice.$dirty">
+                    <div ng-message="required">Required</div>
+                    <div ng-message="number">Should be a number</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Seat</label>
+                <md-select ng-model="boardingPasse.seatId"
+                           name="seat"
+                           required=""
+                           aria-label="select seat">
+                    <md-option ng-value="seat.id" ng-repeat="seat in Seats">{{ seat }}</md-option>
+                </md-select>
+                <div ng-messages="bookForm.seat.$error"
+                     ng-show="bookForm.seat.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+        </md-dialog-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row">
+            <span flex=""></span>
+            <md-button type="submit" class="md-primary md-raised">
+                Booked
+            </md-button>
+            <md-button class="md-warn md-raised" ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

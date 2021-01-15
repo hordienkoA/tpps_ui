@@ -1,0 +1,49 @@
+<md-dialog aria-label="Add/edit aircraft">
+    <form name="addAircraft" ng-submit="answer(aircraft)">
+        <md-dialog-content layout="column">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>Aircraft</h2>
+                    <span flex></span>
+                    <md-button class="md-icon-button md-warn" ng-click="cancel()">
+                        <i class="material-icons">close</i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-input-container>
+                <label>Name</label>
+                <input type="text"
+                       name="name"
+                       required
+                       ng-model="aircraft.name">
+                <div ng-messages="addAircraft.name.$error"
+                     ng-show="addAircraft.name.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Model</label>
+                <input type="text"
+                       name="model"
+                       required
+                       ng-model="aircraft.model">
+                <div ng-messages="addAircraft.model.$error"
+                     ng-show="addAircraft.model.$dirty">
+                    <div ng-message="required">Required</div>
+                </div>
+            </md-input-container>
+
+        </md-dialog-content>
+        <md-divider></md-divider>
+        <md-dialog-actions layout="row">
+            <span flex=""></span>
+            <md-button type="submit" class="md-primary md-raised">
+                Save
+            </md-button>
+            <md-button class="md-warn md-raised" ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+
+</md-dialog>
